@@ -31,7 +31,7 @@ const SITE_DESCRIPTION =
 
 export const metadata: Metadata = {
   // 部署的真实域名，影响 OG 分享图、Twitter card 等绝对 URL 的解析
-  metadataBase: new URL("https://chimerical-cuchufli-6f3dac.netlify.app"),
+  metadataBase: new URL("https://sxt-portfolio.netlify.app"),
   title: {
     default: `${profile.name} | AI Trainer · Prompt Engineer`,
     template: `%s | ${profile.name}`,

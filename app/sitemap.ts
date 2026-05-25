@@ -6,7 +6,7 @@ import type { MetadataRoute } from "next";
  * 部署后访问 /sitemap.xml 可以看到生成结果
  * TODO: 部署后把 SITE_URL 换成你的真实域名
  */
-const SITE_URL = "https://chimerical-cuchufli-6f3dac.netlify.app";
+const SITE_URL = "https://sxt-portfolio.netlify.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
