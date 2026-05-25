@@ -30,8 +30,8 @@ const SITE_DESCRIPTION =
   "AI 训练师 · Prompt 工程师 · 持续打磨高质量的人机协作体验。一个用 Next.js 构建的个人作品集。";
 
 export const metadata: Metadata = {
-  // TODO: 部署后把 metadataBase 改成你的真实域名
-  // metadataBase: new URL("https://your-domain.vercel.app"),
+  // 部署的真实域名，影响 OG 分享图、Twitter card 等绝对 URL 的解析
+  metadataBase: new URL("https://chimerical-cuchufli-6f3dac.netlify.app"),
   title: {
     default: `${profile.name} | AI Trainer · Prompt Engineer`,
     template: `%s | ${profile.name}`,
