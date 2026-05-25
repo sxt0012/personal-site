@@ -194,6 +194,63 @@ body {
   50%      { opacity: 1;   transform: scale(1.12); }
 }
 
+/* 卡通头像点击时朝指定方向喷射的小符号 */
+.avatar-pop {
+  animation: avatarPop 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes avatarPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(
+      calc(-50% + var(--dx, 0px) * 0.3),
+      calc(-50% + var(--dy, 0px) * 0.3)
+    ) scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--dx, 0px)),
+      calc(-50% + var(--dy, 0px))
+    ) scale(0.7);
+  }
+}
+
+/* 卡通头像点击时的扩散光环 */
+.avatar-ring {
+  animation: avatarRing 0.8s ease-out forwards;
+}
+@keyframes avatarRing {
+  0%   { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(2.4); }
+}
+
+/* 卡通头像点击时的短暂抖动 */
+.avatar-shake {
+  animation: avatarShake 0.2s ease-in-out;
+}
+@keyframes avatarShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-3px); }
+  50%      { transform: translateX(3px); }
+  75%      { transform: translateX(-2px); }
+}
+
+/* 卡通头像说话气泡 */
+.avatar-bubble {
+  animation: avatarBubble 2s ease-out forwards;
+}
+@keyframes avatarBubble {
+  0%   { opacity: 0; transform: translateY(8px)  scale(0.7); }
+  15%  { opacity: 1; transform: translateY(0)    scale(1.08); }
+  25%  { opacity: 1; transform: translateY(0)    scale(1); }
+  80%  { opacity: 1; transform: translateY(0)    scale(1); }
+  100% { opacity: 0; transform: translateY(-4px) scale(0.95); }
+}
+
 /* 鼠标滚轮内的小圆点：从顶部慢慢向下流动并淡出 */
 .scroll-wheel-dot {
   animation: scrollWheelDot 1.6s ease-in-out infinite;

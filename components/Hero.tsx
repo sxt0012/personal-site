@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { User, ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import Typewriter from "./Typewriter";
 import Button from "./ui/Button";
+import CartoonAvatar from "./CartoonAvatar";
 import { profile } from "@/data/profile";
 
 /**
@@ -25,31 +25,8 @@ export default function Hero() {
       id="top"
       className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center pt-24 pb-32"
     >
-      {/* ─── 1. 头像 ─── */}
-      <div className="relative mx-auto mb-8 w-32 h-32 sm:w-40 sm:h-40">
-        {/* 外层呼吸光晕 */}
-        <div
-          aria-hidden
-          className="absolute -inset-4 rounded-full bg-accent/30 blur-2xl avatar-glow"
-        />
-        {/* 头像本体 */}
-        <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-accent/60 bg-surface flex items-center justify-center">
-          {profile.avatar ? (
-            // 真实头像（在 data/profile.ts 里填 avatar 路径后启用）
-            <Image
-              src={profile.avatar}
-              alt={profile.name}
-              fill
-              sizes="160px"
-              className="object-cover"
-              priority
-            />
-          ) : (
-            // 占位图标（青色 User 图标）
-            <User className="w-16 h-16 text-accent/70" />
-          )}
-        </div>
-      </div>
+      {/* ─── 1. 卡通形象头像（点击有互动！）─── */}
+      <CartoonAvatar />
 
       {/* ─── 2. 终端风小标签 ─── */}
       <p className="font-mono text-xs sm:text-sm tracking-[0.25em] uppercase mb-4 text-accent">
