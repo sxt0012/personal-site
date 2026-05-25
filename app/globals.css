@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   主题变量（青色科技风）
+   修改这里可以一键调整全站颜色与字体
+   Tailwind v4 会把 --color-* 自动变成工具类（如 text-accent / bg-surface）
+   ────────────────────────────────────────────────────────────── */
+@theme {
+  /* 背景层级 */
+  --color-background: #0a0a0f;                /* 主背景：近黑深色 */
+  --color-surface: #111118;                   /* 卡片、导航栏底色 */
+  --color-border: rgba(255, 255, 255, 0.08);  /* 默认低对比边框 */
+
+  /* 文字层级（避免纯白刺眼） */
+  --color-foreground: #e5e7eb;
+  --color-foreground-muted: #9ca3af;
+  --color-foreground-subtle: #6b7280;
+
+  /* 强调色：青色（核心点缀） */
+  --color-accent: #00f0ff;
+  --color-accent-soft: rgba(0, 240, 255, 0.12);   /* 半透明背景用 */
+  --color-accent-glow: rgba(0, 240, 255, 0.5);    /* 发光效果用 */
+
+  /* 字体（layout.tsx 通过 next/font 注入对应变量） */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   全局基础样式
+   ────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  /* 锚点跳转时给顶部留出 navbar 的高度，避免标题被遮挡 */
+  scroll-padding-top: 80px;
+}
+
+/* 移动菜单淡入动画 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 选中文字时变成青色高亮（细节但有质感） */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-background);
+}
+
+/* 滚动条美化（仅 Chrome / Edge / Safari 生效） */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-soft); }
+
+/* ──────────────────────────────────────────────────────────────
+   Aurora 流动光斑（背景视觉特效）
+   - 3 个大尺寸圆形 + 重模糊 + 慢速 keyframes
+   - 用 mix-blend-mode: screen 让多色叠加更通透
+   - will-change: transform 提示浏览器开启 GPU 加速
+   ────────────────────────────────────────────────────────────── */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(95px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* 青色（主调）*/
+.aurora-blob-1 {
+  width: 720px;
+  height: 720px;
+  background: #00f0ff;
+  top: -10%;
+  left: -10%;
+  opacity: 0.52;
+  animation: auroraFloat1 20s ease-in-out infinite;
+}
+
+/* 紫色（AI 调性）*/
+.aurora-blob-2 {
+  width: 640px;
+  height: 640px;
+  background: #a855f7;
+  top: 20%;
+  right: -12%;
+  opacity: 0.52;
+  animation: auroraFloat2 23s ease-in-out infinite;
+}
+
+/* 深蓝（深度层次）*/
+.aurora-blob-3 {
+  width: 800px;
+  height: 800px;
+  background: #1e40af;
+  bottom: -22%;
+  left: 25%;
+  opacity: 0.45;
+  animation: auroraFloat3 25s ease-in-out infinite;
+}
+
+@keyframes auroraFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(35%, 25%) scale(1.1); }
+  66%      { transform: translate(-15%, 55%) scale(0.9); }
+}
+
+@keyframes auroraFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-25%, 20%) scale(0.95); }
+  66%      { transform: translate(15%, -25%) scale(1.15); }
+}
+
+@keyframes auroraFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(20%, -35%) scale(1.1); }
+  66%      { transform: translate(-25%, -15%) scale(0.95); }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   CRT 质感：扫描线 + 扫描条
+   - .scanlines：极细水平线纹理，营造老 CRT 显示器质感
+   - .scan-bar：一条横向亮条从屏幕顶部缓慢扫到底部
+   ────────────────────────────────────────────────────────────── */
+/* 扫描线：1px 实线 + 2px 透明，每 3px 重复一次，形成 CRT 横线纹理 */
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 240, 255, 0.10) 0px,
+    rgba(0, 240, 255, 0.10) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* 扫描条：3px 亮线 + 多层 box-shadow 光晕，从屏幕顶部扫到底部 */
+.scan-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  top: 0;
+  background: rgba(0, 240, 255, 0.85);
+  box-shadow:
+    0 0 10px rgba(0, 240, 255, 0.7),
+    0 0 30px rgba(0, 240, 255, 0.45),
+    0 0 70px rgba(168, 85, 247, 0.3);
+  animation: scanBar 6s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes scanBar {
+  0%   { transform: translateY(-10px); }
+  100% { transform: translateY(105vh); }
+}
+
+/* 注：本站作为视觉作品集，动画即核心展示，不再因 prefers-reduced-motion
+   禁用动画。用户若需关闭，可在站内提供 toggle（未来扩展项）。 */
+
+/* ──────────────────────────────────────────────────────────────
+   Hero 区相关动画
+   ────────────────────────────────────────────────────────────── */
+
+/* 打字机闪烁光标 */
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--color-accent);
+  animation: blink 1.05s steps(2, start) infinite;
+}
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+/* 头像外圈呼吸光晕（透明度 + 缩放双轴） */
+.avatar-glow {
+  animation: avatarGlow 3.5s ease-in-out infinite;
+}
+@keyframes avatarGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.12); }
+}
+
+/* 鼠标滚轮内的小圆点：从顶部慢慢向下流动并淡出 */
+.scroll-wheel-dot {
+  animation: scrollWheelDot 1.6s ease-in-out infinite;
+}
+@keyframes scrollWheelDot {
+  0%   { opacity: 0; transform: translate(-50%, 0); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, 16px); }
+}
+
+/* 状态指示行：加强版扩散波纹（3x 缩放、慢节奏）*/
+.status-ping {
+  animation: statusPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes statusPing {
+  0%   { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(3); opacity: 0; }
+}
